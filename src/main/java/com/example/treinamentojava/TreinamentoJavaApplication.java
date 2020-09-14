@@ -3,11 +3,11 @@ package com.example.treinamentojava;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.time.*;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
 import java.util.function.ToIntFunction;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
@@ -26,6 +26,63 @@ public class TreinamentoJavaApplication {
 		exemplo_Comparator_Sort(usuarios);
 		exemplo_Map(usuarios);
 		exemplo_Average(usuarios);
+		exemplo_Optional(usuarios);
+
+		exemplo_datas();
+	}
+
+	private static void exemplo_datas() {
+
+		LocalTime agoraComHora = LocalTime.now();
+		LocalDate hoje = LocalDate.now();
+		LocalDateTime dataEhora = hoje.atTime(agoraComHora);
+
+		LocalDate anoPassado = LocalDate.now().minusYears(1);
+
+		LocalDateTime hojeAoMeioDia = LocalDate.now().atTime(12,0);
+
+		LocalDate dataDoPassado = LocalDate.now().withYear(1988);
+
+		LocalDate amanha = LocalDate.now().plusDays(1);
+
+//      Diferença entre duas datas Java 7
+//		Calendar agora = Calendar.getInstance();
+//		Calendar outraData = Calendar.getInstance();
+//		outraData.set(1988, Calendar.JANUARY, 25);
+//		long diferenca = agora.getTimeInMillis() - outraData.getTimeInMillis();
+//		long milissegundosDeUmDia = 1000 * 60 * 60 * 24;
+//		long dias = diferenca / milissegundosDeUmDia;
+
+//      Diferença entre duas datas Java 8
+		LocalDate agora = LocalDate.now();
+		LocalDate outraData = LocalDate.of(1989, Month.JANUARY, 25);
+
+		long dias = ChronoUnit.DAYS.between(outraData, agora);
+		long meses = ChronoUnit.MONTHS.between(outraData, agora);
+		long anos = ChronoUnit.YEARS.between(outraData, agora);
+		System.out.printf("%s dias, %s meses e %s anos", dias, meses, anos);
+
+		//Validar peridos de datas
+		Period periodo = Period.between(outraData, agora);
+		if (periodo.isNegative()) {
+			periodo = periodo.negated();
+		}
+
+		System.out.printf("%s dias, %s meses e %s anos",
+				periodo.getDays(), periodo.getMonths(), periodo.getYears());
+	}
+
+	private static void exemplo_Optional(List<Usuario> usuarios) {
+
+		//Retorna uma instância de Optional vazia.
+
+
+		Optional<Usuario> retorno = Optional.empty();
+
+		Optional<Usuario> max = usuarios
+				.stream()
+				.max(Comparator.comparingInt(Usuario::getPontos));
+		
 	}
 
 	/**
@@ -34,10 +91,7 @@ public class TreinamentoJavaApplication {
 	 */
 	private static void exemplo_Average(List<Usuario> usuarios){
 		System.out.println("<=== Exemplo: average");
-		double pontuacaoMedia = usuarios.stream()
-										.mapToInt(Usuario::getPontos)
-										.average()
-										.getAsDouble();
+		double pontuacaoMedia = usuarios.stream().mapToInt(Usuario::getPontos).average().getAsDouble();
 		System.out.println("Pontuação Média:"+pontuacaoMedia);
 	}
 
@@ -57,8 +111,15 @@ public class TreinamentoJavaApplication {
 	 */
 	private static void exemplo_Comparator_Sort(List<Usuario> usuarios){
 		System.out.println("<=== Exemplo: Comparator e Sort");
+
+
 		exemplo_ComparatorPoints(usuarios);
 		exemplo_ComparatorNames(usuarios);
+
+		List<Usuario> filtradosOrdenados = usuarios.stream()
+				.filter(u -> u.getPontos() > 100)
+				.sorted(Comparator.comparing(Usuario::getNome))
+				.collect(Collectors.toList());
 	}
 
 
