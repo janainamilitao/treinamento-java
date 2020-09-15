@@ -99,7 +99,7 @@ public class ExemplosOptional {
      * da função de mapeamento no valor, caso contrário, retorna um Optional vazio.
      */
     public void map(){
-        Optional<Usuario> retorno = Optional.ofNullable(buscaPorCPF("45429742007")).;
+        Optional<Usuario> retorno = Optional.ofNullable(buscaPorCPF("45429742007"));
 
         if (retorno.isPresent()){
            String nome = retorno.map(Usuario::getNome).get();
@@ -123,18 +123,33 @@ public class ExemplosOptional {
 
 
     }
+    public static String iAmStillExecuted(){
+        System.out.println("nonEmptyOptional is not NULL,still I am being executed");
+        return "I got executed";
+    }
+
 
     /**
      * Se um valor estiver presente, retorna o valor, caso contrário, retorna o resultado produzido pelo parâmetro.
      */
     public void orElseGet(){
-        Optional<Usuario> usuario = Optional.ofNullable(usuarios.stream().filter(u -> u.getNome().equals("Teste")).findFirst().orElseGet(null);
+        Optional<String> nome = Optional.of(usuarios.stream()
+                .filter(u -> u.getNome().equals("Teste")).findFirst().map(Usuario::getNome).orElseGet(() -> "DESCONHECIDO"));
 
-        if(!usuario.isPresent()){
-            LOGGER.info("Optional - orElse: DESCONHECIDO");
-        }
 
-        LOGGER.info("Optional - orElse:"+usuario.get().getNome());
+        LOGGER.info("Optional - orElse:"+nome);
+    }
+
+    /**
+     * Se um valor estiver presente, retorna o valor, caso contrário, retorna uma exceção
+     */
+    public void orElseThrow() throws Exception {
+        String nomeUsuario = "Teste";
+        Optional<String> nome = Optional.of(usuarios.stream()
+                .filter(u -> u.getNome().equals(nomeUsuario)).findFirst().map(Usuario::getNome).orElseThrow(() -> new Exception("Usuário não encontrado - " + nomeUsuario)));
+
+
+        LOGGER.info("Optional - orElse:"+nome);
     }
 
     private Usuario buscaPorCPF(String cpf){

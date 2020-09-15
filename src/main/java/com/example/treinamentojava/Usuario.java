@@ -7,11 +7,14 @@ public class Usuario {
     private TipoUsuario tipoUsuario;
     private String cpf;
 
-
     public Usuario(String nome, int points, String cpf) {
         this.nome = nome;
         this.pontos = points;
         this.cpf = cpf;
+    }
+
+    public Usuario() {
+
     }
 
     public String getNome() {
