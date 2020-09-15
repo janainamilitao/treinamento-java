@@ -1,65 +1,153 @@
-#Treinamento Java 8
+# Treinamento Java 8
+
+## Exerc?cios
+
+**1? -** Transforme esse ``Comparator`` em uma express?o lambda. 
+
+````
+palavras.sort(new Comparator<String>() {
+    @Override
+    public int compare(String s1, String s2) {
+        if(s1.length() < s2.length()) 
+            return -1;
+        if(s1.length() > s2.length()) 
+            return 1;
+        return 0;
+    }
+});
+````
+**Resposta:**
+````
+Nosso c?digo fica assim:
+
+palavras.sort((s1, s2) -> {
+    if(s1.length() < s2.length()) 
+        return -1;
+    if(s1.length() > s2.length()) 
+        return 1;
+    return 0;
+});
 
 
-##Streams
-A proposta em torno da Streams API é reduzir a preocupação do desenvolvedor com a forma de implementar controle de fluxo ao lidar com coleções, deixando isso a cargo da API. 
-A ideia é iterar sobre essas coleções de objetos e, a cada elemento, realizar alguma ação, seja ela de filtragem, mapeamento, transformação, etc. 
-Caberá ao desenvolvedor apenas definir qual ação será realizada sobre o objeto.
+````
+Mas repare que ainda est? muito verboso.
+Conhecendo a API, uma opç?o mais interessante é utilizar o ``Integer.compare()``:
 
-```
-List<Integer> list = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9 , 0);
+````
+palavras.sort((s1, s2) -> {
+    return Integer.compare(s1.length(), s2.length()); 
+});
+````
+Nesse caso, podemos melhorar ainda mais. Como temos apenas uma instruç?o dentro do nosso lambda, podemos remover as chaves, o ponto e v?rgula e a palavra-chave return:
 
-//Implementação tradicional
-for(Integer n: list) {
-   System.out.print(n);
+````
+palavras.sort((s1, s2) -> Integer.compare(s1.length(), s2.length()));
+````
+
+**2? -** Considere a seguinte ``express?o lambda``:
+````
+Function<Usuario, String> funcao = u -> u.getNome()
+````
+Como podemos escrever essa funç?o com ``method reference``?
+
+**Resposta:**
+````
+Function<Usuario, String> funcao = u -> u.getNome()
+````
+
+**3? -** Modifique a forma que estamos fazendo o sort das palavras utilizando o ``Comparator.comparing()``.
+
+O c?digo atual est? assim:
+
+````
+palavras.sort((s1, s2) -> {
+    return Integer.compare(s1.length(), s2.length()); 
+});
+````
+
+**Resposta**:
+
+````
+palavras.sort(Comparator.comparing(s -> s.length()));
+````
+
+**4? -** Crie em seu projeto a seguinte classe Curso:
+````
+class Curso {
+    private String nome;
+    private int alunos;
+
+    public Curso(String nome, int alunos) {
+        this.nome = nome;
+        this.alunos = alunos;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public int getAlunos() {
+        return alunos;
+    }
 }
-
-//Implementação com expressões lambda e StreamAPI       
-list.forEach(n-> System.out.print(n));
-
-```
-
-##ForEach
-Percorre uma collection
-
-````
-usuarios.stream().forEach(u -> u.tornarVisitante());
-//ou
-usuarios.stream().forEach(Usuario::tornarVisitante);
-
-````
-##Filter
-Filtra os elementos de uma collection dada uma condição.
-
 ````
 
-````
-
-##RemoveIf
-Dado um Predicate, o removeIf vai remover todos os elementos
-que devolverem true para esse predicado.
+Crie também uma nova classe com um método main. Nela crie a seguinte lista com alguns cursos:
 
 ````
-
+List<Curso> cursos = new ArrayList<Curso>();
+cursos.add(new Curso("Python", 45));
+cursos.add(new Curso("JavaScript", 150));
+cursos.add(new Curso("Java 8", 113));
+cursos.add(new Curso("C", 55));
 ````
 
-##Comparator e Sort
-Comparar elementos e ordena.  Utiliza a interface java.util.Comparator
+Como você faria pra ordenar essa lista pela quantidade de alunos?
+
+Você pode escolher entre usar um express?o ``lambda`` ou ``method reference``.
+
+**Resposta:**
+
+Com lambda:
 
 ````
+cursos.sort(Comparator.comparingInt(c -> c.getAlunos()));
+````
+Com method reference:
 
 ````
+cursos.sort(Comparator.comparingInt(Curso::getAlunos));
+````
+**5? -** Utilizando a API de Stream, crie um filtro para todos os cursos que tenham mais de 50 alunos.
 
-##Map
-Caso queira extrair o conteúdo de uma variável
+Depois disso faça um forEach no resultado. 
+
+**Resposta:**
 
 ````
+cursos.stream()
+   .filter(c -> c.getAlunos() > 50)
+   .forEach(c -> System.out.println(c.getNome()));
 ````
 
-##Métodos do Optional e cenários de uso
+**6?** Como transformar o nosso ``Stream<Curso>`` em um ``Stream<String>`` contendo apenas os nomes dos cursos? 
 
-##Métodos streams
+**Resposta:**
 
-##Datas
+````
+Stream<String> nomes = cursos.stream().map(Curso::getNome);
+````
 
+**7? -** O c?digo a seguir cria um ``Stream<Integer>`` com a quantidade de alunos dos cursos e em seguida imprime todos eles.
+
+````
+cursos.stream()
+   .filter(c -> c.getAlunos() > 50)
+   .map(c -> c.getAlunos())
+   .forEach(x -> System.out.println(x));
+````
+
+Em que parte desse c?digo podemos tirar proveito da sintaxe de ``method reference``?
+
+**Resposta:**
 

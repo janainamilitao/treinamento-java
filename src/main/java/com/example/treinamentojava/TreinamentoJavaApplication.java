@@ -3,12 +3,9 @@ package com.example.treinamentojava;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.time.*;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.function.ToIntFunction;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
@@ -23,67 +20,44 @@ public class TreinamentoJavaApplication {
 		exemplo_ForEach(usuarios);
 		exemplo_Filter(usuarios);
 		exemplo_RemoveIf(usuarios);
+		ordenarUsario(usuarios);
 		exemplo_Comparator_Sort(usuarios);
 		exemplo_Map(usuarios);
 		exemplo_Average(usuarios);
 		exemplo_Optional(usuarios);
+		exemplo_Streams(usuarios);
 
-		exemplo_datas();
 	}
 
-	private static void exemplo_datas() {
+	private static void exemplo_Streams(List<Usuario> usuarios){
+		ExemplosStreams streams = new ExemplosStreams(usuarios);
 
-		LocalTime agoraComHora = LocalTime.now();
-		LocalDate hoje = LocalDate.now();
-		LocalDateTime dataEhora = hoje.atTime(agoraComHora);
-
-		LocalDate anoPassado = LocalDate.now().minusYears(1);
-
-		LocalDateTime hojeAoMeioDia = LocalDate.now().atTime(12,0);
-
-		LocalDate dataDoPassado = LocalDate.now().withYear(1988);
-
-		LocalDate amanha = LocalDate.now().plusDays(1);
-
-//      Diferença entre duas datas Java 7
-//		Calendar agora = Calendar.getInstance();
-//		Calendar outraData = Calendar.getInstance();
-//		outraData.set(1988, Calendar.JANUARY, 25);
-//		long diferenca = agora.getTimeInMillis() - outraData.getTimeInMillis();
-//		long milissegundosDeUmDia = 1000 * 60 * 60 * 24;
-//		long dias = diferenca / milissegundosDeUmDia;
-
-//      Diferença entre duas datas Java 8
-		LocalDate agora = LocalDate.now();
-		LocalDate outraData = LocalDate.of(1989, Month.JANUARY, 25);
-
-		long dias = ChronoUnit.DAYS.between(outraData, agora);
-		long meses = ChronoUnit.MONTHS.between(outraData, agora);
-		long anos = ChronoUnit.YEARS.between(outraData, agora);
-		System.out.printf("%s dias, %s meses e %s anos", dias, meses, anos);
-
-		//Validar peridos de datas
-		Period periodo = Period.between(outraData, agora);
-		if (periodo.isNegative()) {
-			periodo = periodo.negated();
-		}
-
-		System.out.printf("%s dias, %s meses e %s anos",
-				periodo.getDays(), periodo.getMonths(), periodo.getYears());
 	}
+
+	private static void exemplo_ForEach(List<Usuario> usuarios){
+		System.out.println("<=== Exemplo: ForEach -> tornar todos os usuários visitantes ===>");
+		usuarios.stream().forEach(u -> u.tornarVisitante());
+		//ou
+		usuarios.stream().forEach(Usuario::tornarVisitante);
+		usuarios.stream().forEach( u -> System.out.println(u.getNome()+" ("+u.getPontos()+") - "+ u.getTipoUsuario().toString()));
+	}
+
+	public static void ordenarUsario(List<Usuario> usuarios){
+		OrdenarUsuario ordenarUsuario = new OrdenarUsuario(usuarios);
+		ordenarUsuario.porNome();
+		ordenarUsuario.porPontos();
+	}
+
+
 
 	private static void exemplo_Optional(List<Usuario> usuarios) {
 
-		//Retorna uma instância de Optional vazia.
+		ExemplosOptional optinal = new ExemplosOptional(usuarios);
 
 
-		Optional<Usuario> retorno = Optional.empty();
-
-		Optional<Usuario> max = usuarios
-				.stream()
-				.max(Comparator.comparingInt(Usuario::getPontos));
-		
 	}
+
+
 
 	/**
 	 * AVERAGE: Calcular média
@@ -180,16 +154,9 @@ public class TreinamentoJavaApplication {
 	}
 
 	/***
-	 * FOREACH: Itera uma colecction
+	 * FOREACH: Itera uma collection
 	 * @param usuarios
 	 */
-	private static void exemplo_ForEach(List<Usuario> usuarios){
-		System.out.println("<=== Exemplo: ForEach -> tornar todos os usuários visitantes ===>");
-		usuarios.stream().forEach(u -> u.tornarVisitante());
-		//ou
-		usuarios.stream().forEach(Usuario::tornarVisitante);
-		usuarios.stream().forEach( u -> System.out.println(u.getNome()+" ("+u.getPontos()+") - "+ u.getTipoUsuario().toString()));
-	}
 
 	private static  List<Usuario> criarUsuarios(){
 		System.out.println("<==================================================================>");
@@ -197,15 +164,17 @@ public class TreinamentoJavaApplication {
 		System.out.println("<==================================================================>");
 
 
-		Usuario usuario1 = new Usuario("Janaina Militão", 200);
-		Usuario usuario2 = new Usuario("Aécio Rafael",  100);
-		Usuario usuario3 = new Usuario("Rodrigo Trombeta", 300);
-		Usuario usuario4 = new Usuario("Amanda Silva", 100);
-		Usuario usuario5 = new Usuario("Daniel Lucas", 100);
+		Usuario usuario1 = new Usuario("Janaina Militão", 200, "11728493072");
+		Usuario usuario2 = new Usuario("Aécio Rafael",  100, "73199476090");
+		Usuario usuario3 = new Usuario("Rodrigo Trombeta", 300, "43512875009");
+		Usuario usuario4 = new Usuario("Amanda Silva", 100, "45429742007");
+		Usuario usuario5 = new Usuario("Daniel Lucas", 100, "48595499020");
 
 
 		List<Usuario> usuarios = Arrays.asList(usuario1, usuario2, usuario3, usuario4, usuario5);
 
 		return usuarios;
 	}
+
+
 }

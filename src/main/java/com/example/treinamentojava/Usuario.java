@@ -5,11 +5,13 @@ public class Usuario {
     private String nome;
     private int pontos;
     private TipoUsuario tipoUsuario;
+    private String cpf;
 
 
-    public Usuario(String nome, int points) {
+    public Usuario(String nome, int points, String cpf) {
         this.nome = nome;
         this.pontos = points;
+        this.cpf = cpf;
     }
 
     public String getNome() {
@@ -36,6 +38,14 @@ public class Usuario {
         this.pontos = pontos;
     }
 
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
     public void tornarModerador() {
         this.tipoUsuario = TipoUsuario.MODERADOR;
     }
@@ -45,4 +55,5 @@ public class Usuario {
     }
 
     public void tornarVisitante(){ this.tipoUsuario = TipoUsuario.VISITANTE; }
+
 }
