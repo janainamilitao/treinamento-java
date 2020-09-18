@@ -1,8 +1,8 @@
 # Treinamento Java 8
 
-## Exercícios
+## ExercÃ­cios
 
-**1º -** Transforme esse ``Comparator`` em uma expressão lambda. 
+**1Âº -** Transforme esse ``Comparator`` em uma expressÃ£o lambda. 
 
 ````
 palavras.sort(new Comparator<String>() {
@@ -18,7 +18,7 @@ palavras.sort(new Comparator<String>() {
 ````
 **Resposta:**
 ````
-Nosso c?digo fica assim:
+Nosso cÃ³digo fica assim:
 
 palavras.sort((s1, s2) -> {
     if(s1.length() < s2.length()) 
@@ -30,34 +30,34 @@ palavras.sort((s1, s2) -> {
 
 
 ````
-Mas repare que ainda está muito verboso.
-Conhecendo a API, uma opção mais interessante é utilizar o ``Integer.compare()``:
+Mas repare que ainda estÃ¡ muito verboso.
+Conhecendo a API, uma opÃ§Ã£o mais interessante Ã© utilizar o ``Integer.compare()``:
 
 ````
 palavras.sort((s1, s2) -> {
     return Integer.compare(s1.length(), s2.length()); 
 });
 ````
-Nesse caso, podemos melhorar ainda mais. Como temos apenas uma instrução dentro do nosso lambda, podemos remover as chaves, o ponto e vírgula e a palavra-chave return:
+Nesse caso, podemos melhorar ainda mais. Como temos apenas uma instruÃ§Ã£o dentro do nosso lambda, podemos remover as chaves, o ponto e vÃ­rgula e a palavra-chave return:
 
 ````
 palavras.sort((s1, s2) -> Integer.compare(s1.length(), s2.length()));
 ````
 
-**2º -** Considere a seguinte ``express?o lambda``:
+**2Âº -** Considere a seguinte ``expressÃ£o lambda``:
 ````
 Function<Usuario, String> funcao = u -> u.getNome()
 ````
-Como podemos escrever essa funç?o com ``method reference``?
+Como podemos escrever essa funÃ§Ã£o com ``method reference``?
 
 **Resposta:**
 ````
 Function<Usuario, String> funcao = u -> u.getNome()
 ````
 
-**3º -** Modifique a forma que estamos fazendo o sort das palavras utilizando o ``Comparator.comparing()``.
+**3Âº -** Modifique a forma que estamos fazendo o sort das palavras utilizando o ``Comparator.comparing()``.
 
-O c?digo atual est? assim:
+O cÃ³digo atual estÃ¡ assim:
 
 ````
 palavras.sort((s1, s2) -> {
@@ -71,7 +71,7 @@ palavras.sort((s1, s2) -> {
 palavras.sort(Comparator.comparing(s -> s.length()));
 ````
 
-**4º -** Crie em seu projeto a seguinte classe Curso:
+**4Âº -** Crie em seu projeto a seguinte classe Curso:
 ````
 class Curso {
     private String nome;
@@ -92,7 +92,7 @@ class Curso {
 }
 ````
 
-Crie também uma nova classe com um método main. Nela crie a seguinte lista com alguns cursos:
+Crie tambÃ©m uma nova classe com um mÃ©todo main. Nela crie a seguinte lista com alguns cursos:
 
 ````
 List<Curso> cursos = new ArrayList<Curso>();
@@ -102,9 +102,9 @@ cursos.add(new Curso("Java 8", 113));
 cursos.add(new Curso("C", 55));
 ````
 
-Como você faria pra ordenar essa lista pela quantidade de alunos?
+Como vocÃª faria pra ordenar essa lista pela quantidade de alunos?
 
-Você pode escolher entre usar um expressão ``lambda`` ou ``method reference``.
+VocÃª pode escolher entre usar um expressÃ£o ``lambda`` ou ``method reference``.
 
 **Resposta:**
 
@@ -118,9 +118,9 @@ Com method reference:
 ````
 cursos.sort(Comparator.comparingInt(Curso::getAlunos));
 ````
-**5º -** Utilizando a API de Stream, crie um filtro para todos os cursos que tenham mais de 50 alunos.
+**5Âº -** Utilizando a API de Stream, crie um filtro para todos os cursos que tenham mais de 50 alunos.
 
-Depois disso faça um forEach no resultado. 
+Depois disso faÃ§a um forEach no resultado. 
 
 **Resposta:**
 
@@ -130,7 +130,7 @@ cursos.stream()
    .forEach(c -> System.out.println(c.getNome()));
 ````
 
-**6º -** Como transformar o nosso ``Stream<Curso>`` em um ``Stream<String>`` contendo apenas os nomes dos cursos? 
+**6Âº -** Como transformar o nosso ``Stream<Curso>`` em um ``Stream<String>`` contendo apenas os nomes dos cursos? 
 
 **Resposta:**
 
@@ -138,7 +138,7 @@ cursos.stream()
 Stream<String> nomes = cursos.stream().map(Curso::getNome);
 ````
 
-**7º -** O código a seguir cria um ``Stream<Integer>`` com a quantidade de alunos dos cursos e em seguida imprime todos eles.
+**7Âº -** O cÃ³digo a seguir cria um ``Stream<Integer>`` com a quantidade de alunos dos cursos e em seguida imprime todos eles.
 
 ````
 cursos.stream()
@@ -147,7 +147,7 @@ cursos.stream()
    .forEach(x -> System.out.println(x));
 ````
 
-Em que parte desse código podemos tirar proveito da sintaxe de ``method reference``?
+Em que parte desse cÃ³digo podemos tirar proveito da sintaxe de ``method reference``?
 
 **Resposta:**
 
@@ -158,7 +158,7 @@ cursos.stream()
    .forEach(System.out::println);
 ````
 
-**8º** - Calcule a quantidade média de alunos de todos os seus cursos utilizando a API de Stream.
+**8ï¿½** - Calcule a quantidade mï¿½dia de alunos de todos os seus cursos utilizando a API de Stream.
 
 **Resposta**
 
