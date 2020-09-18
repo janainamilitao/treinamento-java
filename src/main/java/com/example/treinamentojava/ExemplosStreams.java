@@ -21,7 +21,7 @@ public class ExemplosStreams {
      */
     public void findAny(){
         Optional<Usuario> usuario = usuarios.stream().filter(u -> u.getPontos() > 100).findAny();
-        LOGGER.info("Streams - findAny: "+usuario.orElseGet(null));
+        LOGGER.info("Streams - findAny: "+usuario.orElseGet(null).getNome());
     }
 
     /**
@@ -29,7 +29,7 @@ public class ExemplosStreams {
      */
     public void findFirst(){
         Optional<Usuario> usuario = usuarios.stream().filter(c -> c.getPontos() > 200).findFirst();
-        LOGGER.info("Streams - findFirst: "+usuario.orElseGet(null));
+        LOGGER.info("Streams - findFirst: "+usuario.orElseGet(null).getNome());
     }
 
     /**

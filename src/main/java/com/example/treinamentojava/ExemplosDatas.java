@@ -1,51 +1,80 @@
 package com.example.treinamentojava;
 
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
 import java.util.logging.Logger;
 
 public class ExemplosDatas {
 
     private static final Logger LOGGER = Logger.getLogger(ExemplosDatas.class.getName());
 
-    private static void exemplo_datas() {
 
+    public void agora(){
+        LocalDate agora = LocalDate.now();
+        LOGGER.info("Datas: agora: "+agora);
+    }
+    public void dataHora(){
         LocalTime agoraComHora = LocalTime.now();
         LocalDate hoje = LocalDate.now();
         LocalDateTime dataEhora = hoje.atTime(agoraComHora);
+        LOGGER.info("Datas: Data - Hora: "+dataEhora);
+    }
 
+    public void proximoMes(){
+        Calendar proximoMes = Calendar.getInstance();
+        proximoMes.add(Calendar.MONTH, 1);
+        LOGGER.info("Datas: proximo mês: "+proximoMes.getTime());
+    }
+
+    public void anoPassado(){
         LocalDate anoPassado = LocalDate.now().minusYears(1);
+        LOGGER.info("Datas: ano passado: "+anoPassado);
+    }
 
+    public void hojeAoMeioDia(){
         LocalDateTime hojeAoMeioDia = LocalDate.now().atTime(12,0);
+        LOGGER.info("Datas: hoje ao meio dia: "+hojeAoMeioDia);
+    }
 
+    public void dataDoPassado(){
         LocalDate dataDoPassado = LocalDate.now().withYear(1988);
+        LOGGER.info("Datas: data do passado: "+dataDoPassado.getYear());
+    }
 
+    public void amanha(){
         LocalDate amanha = LocalDate.now().plusDays(1);
+        LOGGER.info("Datas: amanha: "+amanha);
+    }
 
-//      Diferença entre duas datas Java 7
-//		Calendar agora = Calendar.getInstance();
-//		Calendar outraData = Calendar.getInstance();
-//		outraData.set(1988, Calendar.JANUARY, 25);
-//		long diferenca = agora.getTimeInMillis() - outraData.getTimeInMillis();
-//		long milissegundosDeUmDia = 1000 * 60 * 60 * 24;
-//		long dias = diferenca / milissegundosDeUmDia;
-
-//      Diferença entre duas datas Java 8
-        LocalDate agora = LocalDate.now();
+    public void outraData(){
         LocalDate outraData = LocalDate.of(1989, Month.JANUARY, 25);
+        LOGGER.info("Datas: amanha: "+outraData);
 
-        long dias = ChronoUnit.DAYS.between(outraData, agora);
-        long meses = ChronoUnit.MONTHS.between(outraData, agora);
-        long anos = ChronoUnit.YEARS.between(outraData, agora);
-        System.out.printf("%s dias, %s meses e %s anos", dias, meses, anos);
+    }
 
-        //Validar peridos de datas
+    public void between() {
+
+        LocalDate agora = LocalDate.now();
+        LocalDate outraData = LocalDate.of(2022, Month.AUGUST, 18);
+
         Period periodo = Period.between(outraData, agora);
         if (periodo.isNegative()) {
             periodo = periodo.negated();
         }
 
+        LOGGER.info("Datas: between:"+periodo.getDays()+" dias "+periodo.getMonths()+" meses "+periodo.getYears()+" anos ");
+
         System.out.printf("%s dias, %s meses e %s anos",
                 periodo.getDays(), periodo.getMonths(), periodo.getYears());
     }
+
+    public void format() {
+        LocalDate agora = LocalDate.now();
+        DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String dataFormatada = agora.format(formatador);
+        LOGGER.info("Datas: data formatada :"+dataFormatada);
+    }
+
 }

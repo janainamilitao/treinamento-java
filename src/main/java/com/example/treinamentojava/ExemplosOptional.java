@@ -123,11 +123,6 @@ public class ExemplosOptional {
 
 
     }
-    public static String iAmStillExecuted(){
-        System.out.println("nonEmptyOptional is not NULL,still I am being executed");
-        return "I got executed";
-    }
-
 
     /**
      * Se um valor estiver presente, retorna o valor, caso contrário, retorna o resultado produzido pelo parâmetro.

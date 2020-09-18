@@ -157,3 +157,13 @@ cursos.stream()
    .map(Curso::getAlunos)
    .forEach(System.out::println);
 ````
+
+**8º** - Calcule a quantidade média de alunos de todos os seus cursos utilizando a API de Stream.
+
+**Resposta**
+
+````
+cursos.stream()
+    .mapToInt(c -> c.getAlunos())
+    .average();
+````

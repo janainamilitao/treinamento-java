@@ -21,19 +21,18 @@ public class TreinamentoJavaApplication {
 		exemplo_Filter(usuarios);
 		exemplo_RemoveIf(usuarios);
 		ordenarUsario(usuarios);
-		exemplo_Comparator_Sort(usuarios);
 		exemplo_Map(usuarios);
 		exemplo_Average(usuarios);
 		exemplo_Optional(usuarios);
 		exemplo_Streams(usuarios);
-
+		exemplo_Datas();
 	}
 
-	private static void exemplo_Streams(List<Usuario> usuarios){
-		ExemplosStreams streams = new ExemplosStreams(usuarios);
 
-	}
-
+	/***
+	 * FOREACH: Itera uma collection
+	 * @param usuarios
+	 */
 	private static void exemplo_ForEach(List<Usuario> usuarios){
 		System.out.println("<=== Exemplo: ForEach -> tornar todos os usuários visitantes ===>");
 		usuarios.stream().forEach(u -> u.tornarVisitante());
@@ -42,22 +41,15 @@ public class TreinamentoJavaApplication {
 		usuarios.stream().forEach( u -> System.out.println(u.getNome()+" ("+u.getPontos()+") - "+ u.getTipoUsuario().toString()));
 	}
 
+	/**
+	 * SORT: Ordenada elementos de uma collection
+	 * @param usuarios
+	 */
 	public static void ordenarUsario(List<Usuario> usuarios){
 		OrdenarUsuario ordenarUsuario = new OrdenarUsuario(usuarios);
 		ordenarUsuario.porNome();
 		ordenarUsuario.porPontos();
 	}
-
-
-
-	private static void exemplo_Optional(List<Usuario> usuarios) {
-
-		ExemplosOptional optinal = new ExemplosOptional(usuarios);
-
-
-	}
-
-
 
 	/**
 	 * AVERAGE: Calcular média
@@ -79,43 +71,6 @@ public class TreinamentoJavaApplication {
 		System.out.println(points);
 	}
 
-	/**
-	 * SORT: Ordenada elementos de uma collection
-	 * @param usuarios
-	 */
-	private static void exemplo_Comparator_Sort(List<Usuario> usuarios){
-		System.out.println("<=== Exemplo: Comparator e Sort");
-
-
-		exemplo_ComparatorPoints(usuarios);
-		exemplo_ComparatorNames(usuarios);
-
-		List<Usuario> filtradosOrdenados = usuarios.stream()
-				.filter(u -> u.getPontos() > 100)
-				.sorted(Comparator.comparing(Usuario::getNome))
-				.collect(Collectors.toList());
-	}
-
-
-	private static void exemplo_ComparatorPoints(List<Usuario> usuarios){
-		System.out.println("<=== Exemplo: Lista usuários ordenados por pontos");
-		ToIntFunction<Usuario> extraiPontos = u -> u.getPontos();
-		Comparator<Usuario> comparator = Comparator.comparingInt(extraiPontos);
-		usuarios.sort(comparator);
-		usuarios.stream().forEach( usuario -> System.out.println(usuario.getNome()+" ("+usuario.getPontos()+")"));
-	}
-
-	private static void exemplo_ComparatorNames(List<Usuario> usuarios){
-		System.out.println("<=== Exemplo: Lista usuários ordenados por nomes");
-		Comparator<Usuario> nameComparator = (u1, u2)->u1.getNome().compareTo(u2.getNome());
-		usuarios.sort(nameComparator);
-
-		usuarios.sort(Comparator.comparing(u -> u.getNome())); // Ordenando por nome de forma mais enxuta
-
-		usuarios.sort(Comparator.comparing(Usuario::getNome).reversed()); // Ordenando de forma decrescente
-
-		usuarios.forEach( usuario -> System.out.println(usuario.getNome()));
-	}
 
 	/***
 	 * REMOVEIF: Remove todos os elemetos de uma collection que devolverem true dado uma condição
@@ -153,10 +108,19 @@ public class TreinamentoJavaApplication {
 		moderadores2.stream().forEach( u -> System.out.println(u.getNome()+" ("+u.getPontos()+") - "+ u.getTipoUsuario().toString()));
 	}
 
-	/***
-	 * FOREACH: Itera uma collection
-	 * @param usuarios
-	 */
+	private static void exemplo_Optional(List<Usuario> usuarios) {
+		ExemplosOptional optinal = new ExemplosOptional(usuarios);
+	}
+
+	private static void exemplo_Streams(List<Usuario> usuarios){
+		ExemplosStreams streams = new ExemplosStreams(usuarios);
+
+	}
+
+	private static void exemplo_Datas() {
+		ExemplosDatas data = new ExemplosDatas();
+	}
+
 
 	private static  List<Usuario> criarUsuarios(){
 		System.out.println("<==================================================================>");
@@ -164,11 +128,11 @@ public class TreinamentoJavaApplication {
 		System.out.println("<==================================================================>");
 
 
-		Usuario usuario1 = new Usuario("Janaina Militão", 200, "11728493072");
-		Usuario usuario2 = new Usuario("Aécio Rafael",  100, "73199476090");
-		Usuario usuario3 = new Usuario("Rodrigo Trombeta", 300, "43512875009");
-		Usuario usuario4 = new Usuario("Amanda Silva", 100, "45429742007");
-		Usuario usuario5 = new Usuario("Daniel Lucas", 100, "48595499020");
+		Usuario usuario1 = new Usuario("Janaina Militão", 200, "11728493072", TipoUsuario.VISITANTE);
+		Usuario usuario2 = new Usuario("Aécio Rafael",  100, "73199476090", TipoUsuario.VISITANTE);
+		Usuario usuario3 = new Usuario("Rodrigo Trombeta", 300, "43512875009", TipoUsuario.VISITANTE);
+		Usuario usuario4 = new Usuario("Amanda Silva", 100, "45429742007", TipoUsuario.VISITANTE);
+		Usuario usuario5 = new Usuario("Daniel Lucas", 100, "48595499020", TipoUsuario.VISITANTE);
 
 
 		List<Usuario> usuarios = Arrays.asList(usuario1, usuario2, usuario3, usuario4, usuario5);
