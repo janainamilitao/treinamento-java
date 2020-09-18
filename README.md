@@ -163,7 +163,5 @@ cursos.stream()
 **Resposta**
 
 ````
-cursos.stream()
-    .mapToInt(c -> c.getAlunos())
-    .average();
+cursos.stream().mapToInt(c -> c.getAlunos()).average();
 ````
